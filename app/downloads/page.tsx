@@ -1,63 +1,76 @@
 import { TCard, TBadge, TButton } from "@/components/kit";
 import { PageShell, SectionHead } from "@/components/PageShell";
 
-const ROWS: { group: string; items: { name: string; format: string; size?: string; href?: string }[] }[] = [
+type Item = { name: string; format: string; size?: string; href?: string };
+type Row = { group: string; items: Item[] };
+
+const ROWS: Row[] = [
   {
     group: "Identity",
     items: [
-      { name: "Logo lockup · horizontal · ink",   format: "SVG · PDF · PNG", size: "12 KB", href: "#" },
-      { name: "Logo lockup · horizontal · bone",  format: "SVG · PDF · PNG", size: "12 KB", href: "#" },
-      { name: "Logo lockup · stacked · ink",      format: "SVG · PDF · PNG", size: "11 KB", href: "#" },
-      { name: "Mark only · all variants",         format: "SVG · PDF · PNG", size: "8 KB",  href: "#" },
-      { name: "Animated mark",                    format: "GIF · WEBM · SVG", size: "62 KB", href: "#" },
-      { name: "Favicon set",                      format: "ICO · PNG (32/192/512)", size: "14 KB", href: "#" },
+      { name: "Logo lockup · horizontal · ink", format: "SVG", size: "1 KB",   href: "/brand/trainovate-lockup-horizontal-ink.svg" },
+      { name: "Logo lockup · stacked · ink",    format: "SVG", size: "1 KB",   href: "/brand/trainovate-lockup-stacked-ink.svg" },
+      { name: "Mark · ink",                     format: "SVG", size: "1 KB",   href: "/brand/trainovate-mark-ink.svg" },
+      { name: "Mark · cobalt",                  format: "SVG", size: "1 KB",   href: "/brand/trainovate-mark-cobalt.svg" },
+      { name: "Mark · light",                   format: "SVG", size: "1 KB",   href: "/brand/trainovate-mark-light.svg" },
+      { name: "Animated mark · cobalt",         format: "GIF", size: "108 KB", href: "/brand/trainovate-mark-animated-cobalt.gif" },
+      { name: "Animated mark · dark",           format: "GIF", size: "108 KB", href: "/brand/trainovate-mark-animated-dark.gif" },
+      { name: "Animated mark · light",          format: "GIF", size: "111 KB", href: "/brand/trainovate-mark-animated-light.gif" },
+      { name: "Favicon · 32px",                 format: "PNG", size: "1 KB",   href: "/brand/favicon-32.png" },
+      { name: "Favicon · 192px",                format: "PNG", size: "6 KB",   href: "/brand/favicon-192.png" },
+      { name: "Favicon · 512px",                format: "PNG", size: "20 KB",  href: "/brand/favicon-512.png" },
     ],
   },
   {
     group: "Type",
     items: [
-      { name: "Inter Tight · web (woff2)",        format: "5 weights", size: "180 KB", href: "#" },
-      { name: "JetBrains Mono · web (woff2)",     format: "3 weights", size: "118 KB", href: "#" },
+      { name: "Inter Tight · 400 Regular",      format: "WOFF2", size: "22 KB", href: "/fonts/InterTight-400.woff2" },
+      { name: "Inter Tight · 500 Medium",       format: "WOFF2", size: "22 KB", href: "/fonts/InterTight-500.woff2" },
+      { name: "Inter Tight · 600 Semibold",     format: "WOFF2", size: "22 KB", href: "/fonts/InterTight-600.woff2" },
+      { name: "Inter Tight · 700 Bold",         format: "WOFF2", size: "22 KB", href: "/fonts/InterTight-700.woff2" },
+      { name: "Inter Tight · 800 Extrabold",    format: "WOFF2", size: "22 KB", href: "/fonts/InterTight-800.woff2" },
+      { name: "JetBrains Mono · 400 Regular",   format: "WOFF2", size: "21 KB", href: "/fonts/JetBrainsMono-400.woff2" },
+      { name: "JetBrains Mono · 500 Medium",    format: "WOFF2", size: "21 KB", href: "/fonts/JetBrainsMono-500.woff2" },
+      { name: "JetBrains Mono · 700 Bold",      format: "WOFF2", size: "21 KB", href: "/fonts/JetBrainsMono-700.woff2" },
+    ],
+  },
+  {
+    group: "Tokens",
+    items: [
+      { name: "Design tokens",                  format: "JSON", size: "7 KB", href: "/tokens.json" },
     ],
   },
   {
     group: "UI Kit",
     items: [
-      { name: "Web · React + TS",                 format: "Source", href: "#" },
-      { name: "React Native",                     format: "Source", href: "#" },
-      { name: "SwiftUI",                          format: "Source", href: "#" },
-      { name: "UIKit",                            format: "Source", href: "#" },
-      { name: "Design tokens (single JSON)",      format: ".json",  size: "6 KB", href: "#" },
+      { name: "Web · React + TS",               format: "Source" },
+      { name: "React Native",                   format: "Source" },
+      { name: "SwiftUI",                        format: "Source" },
+      { name: "UIKit",                          format: "Source" },
     ],
   },
   {
     group: "Templates",
     items: [
-      { name: "Letterhead · Word (.docx)",        format: "8.5 × 11 · A4", href: "#" },
-      { name: "Letterhead · Google Docs",         format: "HTML import",   href: "#" },
-      { name: "Business card front + back",       format: "PDF · print",   href: "#" },
-      { name: "Email signature",                  format: "HTML snippet",  href: "#" },
-      { name: "Slide master · PowerPoint",        format: ".pptx",         href: "#" },
-      { name: "Zoom backgrounds (cobalt + ink)",  format: "PNG 1920×1080", href: "#" },
-    ],
-  },
-  {
-    group: "Code",
-    items: [
-      { name: "Brand Hub · Next.js source",       format: ".zip", href: "#" },
-      { name: "Tailwind preset",                  format: "@trainovate/tailwind", href: "#" },
-      { name: "Tokens · CSS / TS / Swift / RN",   format: "Multi", href: "#" },
+      { name: "Letterhead · Word (.docx)",      format: "8.5 × 11 · A4" },
+      { name: "Letterhead · Google Docs",       format: "HTML import" },
+      { name: "Business card front + back",     format: "PDF · print" },
+      { name: "Email signature",                format: "HTML snippet" },
+      { name: "Slide master · PowerPoint",      format: ".pptx" },
+      { name: "Zoom backgrounds (cobalt + ink)", format: "PNG 1920×1080" },
     ],
   },
 ];
 
 export default function DownloadsPage() {
   const total = ROWS.reduce((n, g) => n + g.items.length, 0);
+  const ready = ROWS.reduce((n, g) => n + g.items.filter((i) => i.href).length, 0);
+
   return (
     <PageShell
       eyebrow="07 · Downloads"
       title={<>Every artefact,<br/>in one matrix.</>}
-      lede={`${total} downloadable assets across identity, type, UI kits, templates, and code.`}
+      lede={`${ready} of ${total} assets ready to download across identity, type, UI kits, templates, and code.`}
     >
       {ROWS.map((g) => (
         <div key={g.group}>
@@ -70,9 +83,25 @@ export default function DownloadsPage() {
                     <p className="font-semibold text-sm">{it.name}</p>
                     <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink/45 mt-0.5">{it.format}</p>
                   </div>
-                  {it.size && <span className="font-mono text-[11px] text-ink/55">{it.size}</span>}
-                  <TBadge tone="neutral">Asset</TBadge>
-                  <TButton size="sm" variant="secondary">Download</TButton>
+                  <span className="font-mono text-[11px] text-ink/55 min-w-[3rem] text-right">{it.size ?? ""}</span>
+                  {it.href ? (
+                    <TBadge tone="neutral">Asset</TBadge>
+                  ) : (
+                    <TBadge tone="neutral">Soon</TBadge>
+                  )}
+                  {it.href ? (
+                    <a
+                      href={it.href}
+                      download
+                      className="t-btn t-btn--secondary t-btn--sm no-underline"
+                    >
+                      Download
+                    </a>
+                  ) : (
+                    <TButton size="sm" variant="secondary" disabled>
+                      Coming soon
+                    </TButton>
+                  )}
                 </div>
               ))}
             </div>

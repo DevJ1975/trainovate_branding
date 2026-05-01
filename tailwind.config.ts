@@ -12,8 +12,8 @@ const config: Config = {
       current: "currentColor",
       white: "#FFFFFF",
       black: "#000000",
-      ink: "#0A0A0A",
-      bone: "#F4F1EA",
+      ink: "rgb(var(--tv-ink-rgb) / <alpha-value>)",
+      bone: "rgb(var(--tv-bone-rgb) / <alpha-value>)",
       signal: "#FF3B30",
       cobalt: {
         DEFAULT: "#0046E6",

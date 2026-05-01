@@ -3,6 +3,10 @@
  * The UI Kit has its own scoped tokens (ui-kit-tokens.css).
  * ────────────────────────────────────────────────── */
 :root {
+  /* Theme-aware foundation (consumed by Tailwind ink/bone via <alpha-value>) */
+  --tv-ink-rgb: 10 10 10;
+  --tv-bone-rgb: 244 241 234;
+
   --tv-ink: #0A0A0A;
   --tv-bone: #F4F1EA;
   --tv-paper: #FFFFFF;
@@ -26,4 +30,16 @@
 
   --tv-ease: cubic-bezier(0.4, 0, 0.2, 1);
   --tv-dur: 220ms;
+}
+
+/* Theme overrides — flip ink/bone so Tailwind classes (bg-bone, text-ink, etc.)
+   automatically respond to the data-theme attribute on <html>. */
+[data-theme="dark"] {
+  --tv-ink-rgb: 244 241 234;
+  --tv-bone-rgb: 10 10 10;
+}
+
+[data-theme="hc"] {
+  --tv-ink-rgb: 0 0 0;
+  --tv-bone-rgb: 255 255 255;
 }
