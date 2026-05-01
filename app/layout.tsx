@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import { TToastProvider } from "@/components/kit";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
@@ -15,13 +14,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-theme="light">
       <body>
-        <ThemeProvider>
-          <TToastProvider>
-            <Nav />
-            {children}
-            <Footer />
-          </TToastProvider>
-        </ThemeProvider>
+        <TToastProvider>
+          <Nav />
+          {children}
+          <Footer />
+        </TToastProvider>
       </body>
     </html>
   );
