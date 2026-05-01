@@ -1,0 +1,39 @@
+/* ──────────────────────────────────────────────────
+ * Trainovate · global stylesheet
+ * Loads tokens, fonts, then Tailwind layers.
+ * ────────────────────────────────────────────────── */
+
+@font-face { font-family: 'Inter Tight'; font-weight: 400; font-style: normal; font-display: swap; src: url('/fonts/InterTight-400.woff2') format('woff2'); }
+@font-face { font-family: 'Inter Tight'; font-weight: 500; font-style: normal; font-display: swap; src: url('/fonts/InterTight-500.woff2') format('woff2'); }
+@font-face { font-family: 'Inter Tight'; font-weight: 600; font-style: normal; font-display: swap; src: url('/fonts/InterTight-600.woff2') format('woff2'); }
+@font-face { font-family: 'Inter Tight'; font-weight: 700; font-style: normal; font-display: swap; src: url('/fonts/InterTight-700.woff2') format('woff2'); }
+@font-face { font-family: 'Inter Tight'; font-weight: 800; font-style: normal; font-display: swap; src: url('/fonts/InterTight-800.woff2') format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 400; font-style: normal; font-display: swap; src: url('/fonts/JetBrainsMono-400.woff2') format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 500; font-style: normal; font-display: swap; src: url('/fonts/JetBrainsMono-500.woff2') format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 700; font-style: normal; font-display: swap; src: url('/fonts/JetBrainsMono-700.woff2') format('woff2'); }
+
+@import './tokens.css';
+@import './ui-kit-tokens.css';
+@import './ui-kit-components.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { font-feature-settings: "cv11", "ss01"; scroll-behavior: smooth; }
+  body { @apply font-sans text-base text-ink bg-bone antialiased; }
+  :focus-visible { outline: 2px solid #0046E6; outline-offset: 2px; }
+  ::selection { background: #0046E6; color: #fff; }
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-mono uppercase;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: rgba(10,10,10,0.62);
+  }
+  .container-tv { @apply mx-auto px-8; max-width: 1280px; }
+  .section-rule { @apply border-t border-[rgba(10,10,10,0.10)]; }
+}
