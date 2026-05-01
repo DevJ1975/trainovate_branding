@@ -29,7 +29,7 @@ export function Nav() {
 
   return (
     <header
-      className={`sticky top-0 z-40 bg-ink text-bone transition-shadow ${
+      className={`sticky top-0 z-40 bg-[#0A0A0A] text-[#F4F1EA] transition-shadow ${
         scrolled ? "shadow-md" : ""
       }`}
     >
@@ -37,7 +37,7 @@ export function Nav() {
         <Link href="/" className="flex items-center gap-3 group">
           <BrandMark tone="bone" size={26} />
           <span className="font-semibold tracking-tight text-base">Trainovate</span>
-          <span className="font-mono text-[10px] tracking-[0.14em] uppercase text-bone/50 hidden md:inline">
+          <span className="font-mono text-[10px] tracking-[0.14em] uppercase text-[#F4F1EA]/50 hidden md:inline">
             Brand Hub
           </span>
         </Link>
@@ -51,10 +51,10 @@ export function Nav() {
                 key={item.href}
                 href={item.href}
                 className={`relative flex items-center gap-2 py-1.5 text-sm transition-colors whitespace-nowrap ${
-                  active ? "text-bone" : "text-bone/55 hover:text-bone"
+                  active ? "text-[#F4F1EA]" : "text-[#F4F1EA]/55 hover:text-[#F4F1EA]"
                 }`}
               >
-                <span className="font-mono text-[10px] tracking-[0.12em] text-bone/40">
+                <span className="font-mono text-[10px] tracking-[0.12em] text-[#F4F1EA]/40">
                   {item.num}
                 </span>
                 {item.label}
@@ -75,13 +75,13 @@ export function Nav() {
 function ThemeSwitch() {
   const { pref, setPref } = useTheme();
   return (
-    <div className="hidden lg:flex items-center gap-1 rounded-md bg-bone/10 p-1 border border-bone/15">
+    <div className="hidden lg:flex items-center gap-1 rounded-md bg-[#F4F1EA]/10 p-1 border border-[#F4F1EA]/15">
       {(["light", "dark", "hc"] as ThemeName[]).map((t) => (
         <button
           key={t}
           onClick={() => setPref(t)}
           className={`px-2.5 py-1 rounded text-[10px] font-mono uppercase tracking-[0.1em] transition-colors ${
-            pref === t ? "bg-bone text-ink" : "text-bone/55 hover:text-bone"
+            pref === t ? "bg-[#F4F1EA] text-[#0A0A0A]" : "text-[#F4F1EA]/55 hover:text-[#F4F1EA]"
           }`}
           title={t === "hc" ? "High contrast" : t}
         >
