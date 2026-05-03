@@ -23,6 +23,7 @@
     --ink: #0A0A0A;
     --bone: #F4F1EA;
     --cobalt: #0046E6;
+    --flare: #FF6B1A;
     --paper: #FFFFFF;
   }
   html, body {
@@ -97,8 +98,8 @@
   /* The mark — orbits use currentColor; nucleus is brand cobalt */
   .mark { display: block; }
   .mark .nucleus { fill: var(--cobalt); }
-  /* On a cobalt surface, flip the nucleus to bone for contrast */
-  body[data-bg="cobalt"] .mark .nucleus { fill: var(--bone); }
+  /* On a cobalt surface, flip the nucleus to brand flare (orange) */
+  body[data-bg="cobalt"] .mark .nucleus { fill: var(--flare); }
 
   /* Animation always runs — this is a brand surface, not chrome */
 </style>

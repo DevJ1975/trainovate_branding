@@ -29,7 +29,7 @@ export default function IdentityPage() {
         </TCard>
         <TCard elevated>
           <div className="aspect-[4/3] bg-cobalt rounded-md flex items-center justify-center mb-4">
-            <BrandLockup tone="bone" size={42} />
+            <BrandLockup tone="bone" size={42} surface="cobalt" />
           </div>
           <p className="text-sm font-semibold mb-1">Horizontal · On Cobalt</p>
           <p className="text-xs text-ink/60">Brand moments only. Sparingly.</p>
@@ -40,14 +40,14 @@ export default function IdentityPage() {
       <SectionHead title="Mark only" count="STANDALONE" />
       <div className="grid md:grid-cols-4 gap-4">
         {[
-          { tone: "ink",    bg: "bg-bone",   label: "Ink on bone" },
-          { tone: "bone",   bg: "bg-ink",    label: "Bone on ink" },
-          { tone: "bone",   bg: "bg-cobalt", label: "Bone on cobalt" },
-          { tone: "cobalt", bg: "bg-bone",   label: "Cobalt on bone" },
+          { tone: "ink",    bg: "bg-bone",   surface: "bone",   label: "Ink on bone" },
+          { tone: "bone",   bg: "bg-ink",    surface: "ink",    label: "Bone on ink" },
+          { tone: "bone",   bg: "bg-cobalt", surface: "cobalt", label: "Bone on cobalt" },
+          { tone: "cobalt", bg: "bg-bone",   surface: "bone",   label: "Cobalt on bone" },
         ].map((m, i) => (
           <TCard key={i} elevated>
             <div className={`aspect-square ${m.bg} rounded-md flex items-center justify-center mb-3`}>
-              <BrandMark tone={m.tone as any} size={92} />
+              <BrandMark tone={m.tone as any} surface={m.surface as any} size={92} />
             </div>
             <p className="text-xs font-mono text-ink/60 uppercase tracking-[0.08em]">{m.label}</p>
           </TCard>
@@ -97,13 +97,13 @@ export default function IdentityPage() {
       <SectionHead title="Animated mark" count="LIVE · 3 BACKGROUNDS" />
       <div className="grid md:grid-cols-3 gap-4">
         {[
-          { tone: "ink",    bg: "bg-bone",   label: "On bone",   note: "Default — for light surfaces and product UI." },
-          { tone: "bone",   bg: "bg-ink",    label: "On ink",    note: "For dark hero moments and splashes." },
-          { tone: "bone",   bg: "bg-cobalt", label: "On cobalt", note: "Brand moments only — keep it sparing." },
+          { tone: "ink",    bg: "bg-bone",   surface: "bone",   label: "On bone",   note: "Default — for light surfaces and product UI." },
+          { tone: "bone",   bg: "bg-ink",    surface: "ink",    label: "On ink",    note: "For dark hero moments and splashes." },
+          { tone: "bone",   bg: "bg-cobalt", surface: "cobalt", label: "On cobalt", note: "Brand moments only — keep it sparing." },
         ].map((a) => (
           <TCard key={a.label} elevated>
             <div className={`aspect-square ${a.bg} rounded-md flex items-center justify-center mb-3 overflow-hidden`}>
-              <BrandMark tone={a.tone as "ink" | "bone"} size={140} animated />
+              <BrandMark tone={a.tone as "ink" | "bone"} surface={a.surface as any} size={140} animated />
             </div>
             <p className="text-sm font-semibold mb-1">{a.label}</p>
             <p className="text-xs text-ink/60">{a.note}</p>

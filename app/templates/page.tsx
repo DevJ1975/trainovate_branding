@@ -106,7 +106,7 @@ export default function TemplatesPage() {
         </TCard>
         <TCard elevated>
           <div className="bg-cobalt rounded-md p-5 mb-4 aspect-[16/9] flex items-center justify-center">
-            <BrandMark tone="bone" size={64} animated />
+            <BrandMark tone="bone" surface="cobalt" size={64} animated />
           </div>
           <p className="font-semibold text-sm mb-1">Zoom · animated · Cobalt</p>
           <p className="text-xs text-ink/60 mb-3">1920×1080 HTML — record once with QuickTime / Game Bar to MP4.</p>

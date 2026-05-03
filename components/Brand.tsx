@@ -22,21 +22,30 @@ const COLORS: Record<Tone, string> = {
   current: "currentColor",
 };
 
-// Nucleus is always cobalt — except on a cobalt surface where it would
-// disappear, in which case it flips to bone for contrast.
-function nucleusFill(tone: Tone): string {
-  return tone === "cobalt" ? COLORS.bone : COLORS.cobalt;
+// Nucleus is brand cobalt by default. On a cobalt surface (either
+// because the mark itself is in `tone="cobalt"` or because the caller
+// has placed a bone/ink mark on a cobalt background) it flips to
+// brand flare — a warm complementary hit against the blue.
+const FLARE = "#FF6B1A";
+type Surface = "ink" | "bone" | "cobalt";
+function nucleusFill(tone: Tone, surface?: Surface): string {
+  if (surface === "cobalt" || tone === "cobalt") return FLARE;
+  return COLORS.cobalt;
 }
 
 export function BrandMark({
   tone = "ink",
   size = 32,
   animated = false,
+  surface,
   className = "",
 }: {
   tone?: Tone;
   size?: number;
   animated?: boolean;
+  /** Background the mark sits on. Lets the nucleus flip to flare when
+   *  the surface would otherwise swallow a cobalt nucleus. */
+  surface?: Surface;
   className?: string;
 }) {
   const rawId = useId();
@@ -71,7 +80,7 @@ export function BrandMark({
       </g>
 
       {/* Cobalt nucleus */}
-      <circle cx="50" cy="50" r="8" fill={nucleusFill(tone)} />
+      <circle cx="50" cy="50" r="8" fill={nucleusFill(tone, surface)} />
 
       {/* Electrons — base cx/cy is the static fallback; animateMotion overrides while running */}
       {showElectrons && (
@@ -104,16 +113,18 @@ export function BrandLockup({
   tone = "ink",
   size = 28,
   animated = false,
+  surface,
   className = "",
 }: {
   tone?: Exclude<Tone, "current">;
   size?: number;
   animated?: boolean;
+  surface?: Surface;
   className?: string;
 }) {
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
-      <BrandMark tone={tone} size={size} animated={animated} />
+      <BrandMark tone={tone} size={size} animated={animated} surface={surface} />
       <span
         style={{
           fontFamily: '"Inter Tight", sans-serif',

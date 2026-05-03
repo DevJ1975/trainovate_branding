@@ -76,7 +76,7 @@ export default function ScreensaverPage() {
       <div className="grid md:grid-cols-[1.2fr_1fr] gap-6 items-start">
         <TCard elevated className="!p-0 overflow-hidden">
           <div className="relative bg-cobalt aspect-[16/9] flex items-center justify-center">
-            <BrandMark tone="bone" size={220} animated />
+            <BrandMark tone="bone" surface="cobalt" size={220} animated />
           </div>
           <div className="p-5">
             <p className="font-semibold text-sm mb-1">Zoom-mode · Cobalt</p>
