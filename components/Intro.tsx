@@ -122,7 +122,7 @@ export function Intro({ onDone }: { onDone: () => void }) {
 
       const mat = new THREE.PointsMaterial({
         color: BONE,
-        size: 0.42,
+        size: 0.72,
         sizeAttenuation: true,
         transparent: true,
         opacity: 0.9,
