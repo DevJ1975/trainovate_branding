@@ -17,7 +17,7 @@ export default function UIKitPage() {
     <PageShell
       eyebrow="04 · UI Kit"
       title={<>20 components, live.<br/>This page uses them all.</>}
-      lede="Every control is a real React component you can import. Switch the theme via the top-right toggle to see all states adapt."
+      lede="Every control is a real React component you can import. The same component contracts ship for React Native, SwiftUI and UIKit."
       action={<Link href="/ui-kit/native"><TButton variant="secondary">Native platforms →</TButton></Link>}
     >
       <Showcase />

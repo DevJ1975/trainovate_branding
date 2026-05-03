@@ -73,7 +73,7 @@ export default function DownloadsPage() {
       lede={`${ready} of ${total} assets ready to download across identity, type, UI kits, templates, and code.`}
     >
       {ROWS.map((g) => (
-        <div key={g.group}>
+        <div key={g.group} id={g.group.toLowerCase()} className="scroll-mt-24">
           <SectionHead title={g.group} count={`${g.items.length} ITEMS`} />
           <TCard elevated className="!p-0 overflow-hidden">
             <div className="divide-y divide-[rgba(10,10,10,0.06)]">

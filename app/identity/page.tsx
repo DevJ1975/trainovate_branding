@@ -1,4 +1,5 @@
-import { TBadge, TCard, TButton } from "@/components/kit";
+import Link from "next/link";
+import { TCard, TButton } from "@/components/kit";
 import { BrandMark, BrandLockup } from "@/components/Brand";
 import { PageShell, SectionHead } from "@/components/PageShell";
 
@@ -92,6 +93,26 @@ export default function IdentityPage() {
         </TCard>
       </div>
 
+      {/* Animated mark */}
+      <SectionHead title="Animated mark" count="3 BACKGROUNDS" />
+      <div className="grid md:grid-cols-3 gap-4">
+        {[
+          { src: "/brand/trainovate-mark-animated-light.gif", bg: "bg-bone",   label: "On bone",   note: "For light surfaces and product UI." },
+          { src: "/brand/trainovate-mark-animated-dark.gif",  bg: "bg-ink",    label: "On ink",    note: "For dark hero moments and splashes." },
+          { src: "/brand/trainovate-mark-animated-cobalt.gif", bg: "bg-cobalt", label: "On cobalt", note: "Brand moments only — keep it sparing." },
+        ].map((a) => (
+          <TCard key={a.src} elevated>
+            <div className={`aspect-square ${a.bg} rounded-md flex items-center justify-center mb-3 overflow-hidden`}>
+              {/* Use a plain <img> — animated GIFs are not optimised by next/image */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={a.src} alt={`Animated Trainovate mark — ${a.label}`} width={140} height={140} />
+            </div>
+            <p className="text-sm font-semibold mb-1">{a.label}</p>
+            <p className="text-xs text-ink/60">{a.note}</p>
+          </TCard>
+        ))}
+      </div>
+
       {/* Misuse */}
       <SectionHead title="Misuse" count="DON'T DO THESE" />
       <div className="grid md:grid-cols-4 gap-4">
@@ -109,8 +130,8 @@ export default function IdentityPage() {
       </div>
 
       <div className="mt-12 flex gap-3 flex-wrap">
-        <TButton variant="primary">Download all logo files</TButton>
-        <TButton variant="secondary">View misuse examples</TButton>
+        <Link href="/downloads#identity"><TButton variant="primary">Download all logo files →</TButton></Link>
+        <Link href="/brand"><TButton variant="secondary">See brand foundations</TButton></Link>
       </div>
     </PageShell>
   );

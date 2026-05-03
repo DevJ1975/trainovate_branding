@@ -22,7 +22,7 @@ const SECTIONS = [
     href: "/ui-kit",
     num: "04",
     title: "UI Kit",
-    body: "20 live components. 4 platforms. 3 themes. Built with itself.",
+    body: "20 live components across web and native. Built with itself.",
     badge: "WEB · RN · SWIFTUI · UIKIT",
   },
   {
@@ -82,7 +82,7 @@ export default function Home() {
         <div className="mt-16 pt-8 border-t border-[rgba(10,10,10,0.10)] grid grid-cols-2 md:grid-cols-4 gap-8">
           <Stat num="20" label="Components" />
           <Stat num="4" label="Platforms" />
-          <Stat num="3" label="Themes" />
+          <Stat num="12" label="Design tokens" />
           <Stat num="1" label="Source of truth" />
         </div>
       </section>

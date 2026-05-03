@@ -121,7 +121,8 @@ export default function TemplatesPage() {
       </div>
 
       <div className="mt-12 flex gap-3 flex-wrap">
-        <Link href="/downloads"><TButton variant="primary">All downloads →</TButton></Link>
+        <Link href="/downloads#templates"><TButton variant="primary">All template downloads →</TButton></Link>
+        <Link href="/identity"><TButton variant="secondary">Identity guidelines</TButton></Link>
       </div>
     </PageShell>
   );
