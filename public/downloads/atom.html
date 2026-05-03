@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Trainovate · Animated Mark</title>
+<!--
+  Canonical Trainovate animated nucleus.
+  Self-contained HTML — works as:
+    1. A Zoom background (record this page to MP4 with QuickTime / OBS at 1920x1080)
+    2. A WebView-based screensaver (WebViewScreenSaver on macOS, Plash on Windows)
+
+  Query params:
+    ?bg=ink        Dark ink background (default)
+    ?bg=cobalt     Cobalt brand background
+    ?bg=bone       Light bone background
+    ?drift=1       Slowly translate the mark across the screen (screensaver mode)
+    ?wordmark=0    Hide the wordmark
+    ?ratio=16:9    Lock aspect (default fills viewport)
+-->
+<style>
+  :root {
+    --ink: #0A0A0A;
+    --bone: #F4F1EA;
+    --cobalt: #0046E6;
+    --paper: #FFFFFF;
+  }
+  html, body {
+    margin: 0; padding: 0; width: 100%; height: 100%;
+    overflow: hidden;
+    background: var(--ink);
+    color: var(--bone);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter Tight", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  body[data-bg="cobalt"] { background: var(--cobalt); color: var(--bone); }
+  body[data-bg="bone"]   { background: var(--bone);   color: var(--ink);  }
+  body[data-bg="ink"]    { background: var(--ink);    color: var(--bone); }
+
+  .stage {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  /* Subtle dot grid on dark surfaces */
+  .stage::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0);
+    background-size: 24px 24px;
+    opacity: 0.04;
+    pointer-events: none;
+  }
+  body[data-bg="bone"] .stage::before { opacity: 0.06; }
+
+  .floater {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+  }
+  body[data-drift="1"] .floater {
+    animation: drift 90s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    0%   { transform: translate(-58%, -52%); }
+    25%  { transform: translate(-46%, -56%); }
+    50%  { transform: translate(-54%, -44%); }
+    75%  { transform: translate(-42%, -50%); }
+    100% { transform: translate(-58%, -48%); }
+  }
+
+  .lockup {
+    display: flex; flex-direction: column; align-items: center; gap: 28px;
+  }
+  .wordmark {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-size: clamp(28px, 4vw, 56px);
+    line-height: 1;
+    opacity: 0.92;
+  }
+  body[data-wordmark="0"] .wordmark { display: none; }
+
+  .meta {
+    position: absolute;
+    left: 0; right: 0; bottom: 24px;
+    text-align: center;
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.35;
+  }
+
+  /* The mark itself — atomic nucleus, currentColor everywhere */
+  .mark { display: block; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .floater { animation: none !important; }
+    .mark .electron-anim { display: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="floater">
+      <div class="lockup">
+        <svg class="mark" viewBox="0 0 100 100" width="360" height="360"
+             role="img" aria-label="Trainovate"
+             style="color: currentColor">
+          <defs>
+            <path id="orbit" d="M 92,50 A 42,14 0 1 1 8,50 A 42,14 0 1 1 92,50" />
+          </defs>
+          <g fill="none" stroke="currentColor" stroke-width="3">
+            <ellipse cx="50" cy="50" rx="42" ry="14" />
+            <ellipse cx="50" cy="50" rx="42" ry="14" transform="rotate(60 50 50)" />
+            <ellipse cx="50" cy="50" rx="42" ry="14" transform="rotate(120 50 50)" />
+          </g>
+          <circle cx="50" cy="50" r="9" fill="currentColor" />
+
+          <circle cx="92" cy="50" r="4.5" fill="currentColor">
+            <animateMotion class="electron-anim" dur="3.2s" repeatCount="indefinite">
+              <mpath href="#orbit" />
+            </animateMotion>
+          </circle>
+          <g transform="rotate(60 50 50)">
+            <circle cx="92" cy="50" r="4.5" fill="currentColor">
+              <animateMotion class="electron-anim" dur="3.8s" repeatCount="indefinite" begin="-0.9s">
+                <mpath href="#orbit" />
+              </animateMotion>
+            </circle>
+          </g>
+          <g transform="rotate(120 50 50)">
+            <circle cx="92" cy="50" r="4.5" fill="currentColor">
+              <animateMotion class="electron-anim" dur="2.6s" repeatCount="indefinite" begin="-1.6s">
+                <mpath href="#orbit" />
+              </animateMotion>
+            </circle>
+          </g>
+        </svg>
+        <div class="wordmark">Trainovate</div>
+      </div>
+    </div>
+    <div class="meta" data-meta>Trainovate · Brand Hub</div>
+  </div>
+<script>
+  (function () {
+    var p = new URLSearchParams(location.search);
+    var bg = p.get("bg") || "ink";
+    document.body.dataset.bg = bg;
+    if (p.get("drift") === "1") document.body.dataset.drift = "1";
+    if (p.get("wordmark") === "0") document.body.dataset.wordmark = "0";
+    if (p.get("meta") === "0") {
+      var m = document.querySelector("[data-meta]");
+      if (m) m.style.display = "none";
+    }
+    // Mark size scales with the viewport's shorter dimension so it reads
+    // well at every aspect (1920x1080, 2560x1440, vertical screensavers).
+    function fit() {
+      var d = Math.min(window.innerWidth, window.innerHeight);
+      var size = Math.round(d * 0.34);
+      var svg = document.querySelector(".mark");
+      if (svg) { svg.setAttribute("width", size); svg.setAttribute("height", size); }
+    }
+    fit(); window.addEventListener("resize", fit);
+
+    // Hide the cursor in screensaver/recording mode
+    if (p.get("drift") === "1" || p.get("hideCursor") === "1") {
+      document.body.style.cursor = "none";
+    }
+  })();
+</script>
+</body>
+</html>

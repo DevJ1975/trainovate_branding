@@ -13,6 +13,7 @@ const NAV = [
   { href: "/templates",  label: "Templates",  num: "05" },
   { href: "/developers", label: "Developers", num: "06" },
   { href: "/downloads",  label: "Downloads",  num: "07" },
+  { href: "/screensaver", label: "Screensaver", num: "08" },
 ];
 
 export function Nav() {

@@ -50,12 +50,19 @@ const ROWS: Row[] = [
   {
     group: "Templates",
     items: [
-      { name: "Letterhead · Word (.docx)",      format: "8.5 × 11 · A4" },
-      { name: "Letterhead · Google Docs",       format: "HTML import" },
+      { name: "Letterhead · Word (.docx)",      format: "8.5 × 11 · OOXML",    size: "5 KB",  href: "/downloads/letterhead.docx" },
+      { name: "Letterhead · HTML (print-ready)", format: "Browser → PDF",      size: "5 KB",  href: "/downloads/letterhead.html" },
       { name: "Business card front + back",     format: "PDF · print" },
       { name: "Email signature",                format: "HTML snippet" },
       { name: "Slide master · PowerPoint",      format: ".pptx" },
-      { name: "Zoom backgrounds (cobalt + ink)", format: "PNG 1920×1080" },
+    ],
+  },
+  {
+    group: "Screensaver & Zoom",
+    items: [
+      { name: "Animated screensaver kit",       format: "ZIP · HTML + install guides", size: "6 KB", href: "/downloads/trainovate-screensaver.zip" },
+      { name: "Animated Zoom background kit",   format: "ZIP · HTML + record guide",   size: "5 KB", href: "/downloads/trainovate-zoom-background.zip" },
+      { name: "Atom payload (raw HTML)",        format: "HTML · self-contained",       size: "6 KB", href: "/downloads/atom.html" },
     ],
   },
 ];

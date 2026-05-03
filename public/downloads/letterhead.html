@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Trainovate · Letterhead</title>
+<!--
+  Print-ready HTML letterhead.
+  Open in any browser → File → Print → Save as PDF.
+  Margins are tuned for US Letter (8.5×11) with 1 in around the page.
+-->
+<style>
+  @page { size: Letter; margin: 0; }
+  :root {
+    --ink: #0A0A0A;
+    --bone: #F4F1EA;
+    --cobalt: #0046E6;
+    --line: #E2DDD0;
+    --muted: #5C5C5C;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #d6d3cc; font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--ink); }
+  .page {
+    width: 8.5in; min-height: 11in; padding: 1in 1in 0.85in;
+    background: #ffffff; margin: 24px auto;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    display: flex; flex-direction: column;
+  }
+  @media print {
+    html, body { background: #ffffff; }
+    .page { box-shadow: none; margin: 0; }
+  }
+  .brand {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 12px; border-bottom: 3px solid var(--cobalt);
+  }
+  .brand .lockup {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-weight: 700; font-size: 22px; letter-spacing: -0.02em; color: var(--ink);
+  }
+  .brand .mark {
+    width: 28px; height: 28px;
+  }
+  .brand .tag {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+  }
+  .meta {
+    margin-top: 36px;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  }
+  .recipient { margin-top: 8px; line-height: 1.5; font-size: 12px; }
+  .recipient strong { font-weight: 600; }
+  .body {
+    margin-top: 28px; line-height: 1.55; font-size: 11pt;
+  }
+  .body p { margin: 0 0 14px; }
+  .signoff { margin-top: 32px; }
+  .signature { margin-top: 56px; font-weight: 700; }
+  .signature + .role { margin-top: 4px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+  .footer {
+    margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: #8a8a8a;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <header class="brand">
+      <span class="lockup">
+        <svg class="mark" viewBox="0 0 100 100" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="6">
+            <ellipse cx="50" cy="50" rx="42" ry="14"/>
+            <ellipse cx="50" cy="50" rx="42" ry="14" transform="rotate(60 50 50)"/>
+            <ellipse cx="50" cy="50" rx="42" ry="14" transform="rotate(120 50 50)"/>
+          </g>
+          <circle cx="50" cy="50" r="9" fill="currentColor"/>
+        </svg>
+        Trainovate
+      </span>
+      <span class="tag">Operational training, in the field.</span>
+    </header>
+
+    <div class="meta">January 1, 2026</div>
+
+    <div class="recipient" contenteditable="true">
+      <strong>Recipient name</strong><br/>
+      Address line 1<br/>
+      City, State&nbsp;ZIP
+    </div>
+
+    <div class="body" contenteditable="true">
+      <p>Dear First name,</p>
+      <p>Replace this paragraph with your message. The default body uses Inter Tight at 11pt with a 1.55 line height — the same rhythm the Trainovate web product uses, so anything you type here will read consistently with the rest of the brand surface.</p>
+      <p>Use the eyebrow style above the rule for short labels. Body type stays at the default. Keep paragraphs short — three lines or fewer reads best in print.</p>
+      <div class="signoff">
+        <p>Sincerely,</p>
+        <p class="signature">Your name</p>
+        <p class="role">Title · Trainovate</p>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <span>Trainovate</span>
+      <span>trainovate.com</span>
+      <span>hello@trainovate.com</span>
+    </footer>
+  </div>
+</body>
+</html>

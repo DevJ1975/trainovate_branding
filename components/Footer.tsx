@@ -28,6 +28,7 @@ export function Footer() {
           ]} />
           <FooterCol title="Get it" links={[
             { href: "/downloads", label: "Downloads" },
+            { href: "/screensaver", label: "Screensaver & Zoom" },
           ]} />
         </div>
 
