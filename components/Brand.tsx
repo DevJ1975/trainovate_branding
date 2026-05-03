@@ -36,7 +36,6 @@ export function BrandMark({
   const rawId = useId();
   const uid = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
   const orbitPathId = `tv-orbit-${uid}`;
-  const animClass = `tv-mark-anim-${uid}`;
 
   const showElectrons = size >= 24;
   const animate = animated && size >= 28;
@@ -51,10 +50,6 @@ export function BrandMark({
       role="img"
       aria-label="Trainovate"
     >
-      {animate && (
-        <style>{`@media (prefers-reduced-motion: reduce){.${animClass}{display:none}}`}</style>
-      )}
-
       <defs>
         {/* Single canonical orbit path; rotated copies use <g transform> */}
         <path
@@ -73,16 +68,12 @@ export function BrandMark({
       {/* Nucleus */}
       <circle cx="50" cy="50" r="9" fill="currentColor" />
 
-      {/* Electrons — static cx/cy take effect when motion is reduced */}
+      {/* Electrons — static cx/cy is the base; SMIL animateMotion overrides while running */}
       {showElectrons && (
         <>
           <circle cx="92" cy="50" r="4.5" fill="currentColor">
             {animate && (
-              <animateMotion
-                className={animClass}
-                dur="3.2s"
-                repeatCount="indefinite"
-              >
+              <animateMotion dur="3.2s" repeatCount="indefinite">
                 <mpath href={`#${orbitPathId}`} />
               </animateMotion>
             )}
@@ -90,12 +81,7 @@ export function BrandMark({
           <g transform="rotate(60 50 50)">
             <circle cx="92" cy="50" r="4.5" fill="currentColor">
               {animate && (
-                <animateMotion
-                  className={animClass}
-                  dur="3.8s"
-                  repeatCount="indefinite"
-                  begin="-0.9s"
-                >
+                <animateMotion dur="3.8s" repeatCount="indefinite" begin="-0.9s">
                   <mpath href={`#${orbitPathId}`} />
                 </animateMotion>
               )}
@@ -104,12 +90,7 @@ export function BrandMark({
           <g transform="rotate(120 50 50)">
             <circle cx="92" cy="50" r="4.5" fill="currentColor">
               {animate && (
-                <animateMotion
-                  className={animClass}
-                  dur="2.6s"
-                  repeatCount="indefinite"
-                  begin="-1.6s"
-                >
+                <animateMotion dur="2.6s" repeatCount="indefinite" begin="-1.6s">
                   <mpath href={`#${orbitPathId}`} />
                 </animateMotion>
               )}

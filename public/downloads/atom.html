@@ -96,10 +96,7 @@
   /* The mark itself — atomic nucleus, currentColor everywhere */
   .mark { display: block; }
 
-  @media (prefers-reduced-motion: reduce) {
-    .floater { animation: none !important; }
-    .mark .electron-anim { display: none; }
-  }
+  /* Animation always runs — this is a brand surface, not chrome */
 </style>
 </head>
 <body>
