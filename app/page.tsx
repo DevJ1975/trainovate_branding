@@ -2,6 +2,7 @@ import Link from "next/link";
 import { TButton, TBadge, TCard } from "@/components/kit";
 import { BrandMark } from "@/components/Brand";
 import { PageShell, SectionHead } from "@/components/PageShell";
+import { IntroGate } from "@/components/IntroGate";
 
 const SECTIONS = [
   {
@@ -51,6 +52,7 @@ const SECTIONS = [
 export default function Home() {
   return (
     <main className="pb-32">
+      <IntroGate />
       {/* Hero */}
       <section className="container-tv pt-20 md:pt-32 pb-16">
         <div className="grid md:grid-cols-[1.2fr_1fr] gap-12 items-center">

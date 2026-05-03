@@ -25,6 +25,7 @@
   body { @apply font-sans text-base text-ink bg-bone antialiased; }
   :focus-visible { outline: 2px solid #0046E6; outline-offset: 2px; }
   ::selection { background: #0046E6; color: #fff; }
+  html.tv-intro-playing, html.tv-intro-playing body { overflow: hidden; }
 }
 
 @layer components {
