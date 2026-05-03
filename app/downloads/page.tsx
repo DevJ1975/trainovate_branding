@@ -65,6 +65,13 @@ const ROWS: Row[] = [
       { name: "Atom payload (raw HTML)",        format: "HTML · self-contained",       size: "6 KB", href: "/downloads/atom.html" },
     ],
   },
+  {
+    group: "Intro reveal",
+    items: [
+      { name: "Intro kit (.zip)",               format: "ZIP · HTML + README + LICENSE", size: "5 KB", href: "/downloads/trainovate-intro.zip" },
+      { name: "Intro splash (raw HTML)",        format: "HTML · three.js via CDN",       size: "10 KB", href: "/downloads/intro.html" },
+    ],
+  },
 ];
 
 export default function DownloadsPage() {

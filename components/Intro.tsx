@@ -5,30 +5,38 @@ import { useEffect, useRef, useState } from "react";
 /**
  * Trainovate intro reveal.
  *
- * Lazy-loads three.js, runs ~3.5s, calls onDone() when finished or
- * when the user interacts. Phases:
+ * Lazy-loads three.js, runs ~8.5s, calls onDone() when finished or
+ * when the user interacts. Phases (absolute ms):
  *
- *   0.0 – 0.4s   particles scattered + drifting in 3D
- *   0.4 – 2.0s   particles converge along the two ±30° ellipses
- *   1.6 – 2.4s   cobalt nucleus materializes with a flare-orange halo
- *   2.0 – 2.8s   "Trainovate.ai" wordmark fades in (DOM overlay)
- *   2.8 – 3.5s   camera dolly forward + scene fades to bone (hub bg)
+ *   0    –  400   particles scattered + drifting in 3D
+ *   400  – 2000   particles converge along the two ±30° ellipses
+ *   1600 – 2400   cobalt nucleus materializes with a flare-orange halo
+ *   2000 – 2800   "Trainovate.ai" wordmark fades in (DOM overlay)
+ *   2800 – 7800   HOLD — mark fully revealed, gentle rotation, soft halo
+ *   7800 – 8500   camera dolly forward + scene fades to bone (hub bg)
  */
 
 const COBALT = 0x0046e6;
 const FLARE  = 0xff6b1a;
 const BONE   = 0xf4f1ea;
 
-const DURATION = 3500; // ms
+// Phase boundaries in milliseconds — change these to retime the reveal
+const T = {
+  driftEnd:    400,
+  convStart:   400,
+  convEnd:    2000,
+  nucIn:      1600,
+  nucFull:    2400,
+  haloPeak:   2200,
+  wordmarkIn: 2000,
+  holdEnd:    7800,
+  dollyEnd:   8500,
+} as const;
+const DURATION = T.dollyEnd;
 
-function ease(t: number) {
-  // easeInOutQuad
-  return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-}
-
-function lerp(a: number, b: number, t: number) {
-  return a + (b - a) * t;
-}
+const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
+const ease = (t: number) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 export function Intro({ onDone }: { onDone: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -165,63 +173,59 @@ export function Intro({ onDone }: { onDone: () => void }) {
       let done = false;
 
       function frame() {
-        const elapsed = performance.now() - t0;
-        const t = Math.min(elapsed / DURATION, 1);
+        const ms = performance.now() - t0;
 
-        // Phase A: particle drift + converge
-        // 0.0 → 0.12  pure drift; 0.12 → 0.62 converge
-        const conv = ease(Math.max(0, Math.min((t - 0.12) / 0.5, 1)));
+        // ── Particles: drift then converge ──
+        const conv = ease(clamp01((ms - T.convStart) / (T.convEnd - T.convStart)));
         const arr = geom.attributes.position.array as Float32Array;
         for (let i = 0; i < N * 3; i++) {
-          // Subtle pre-drift on the start positions
-          const drift = Math.sin(elapsed * 0.0008 + i) * 0.08;
+          const drift = Math.sin(ms * 0.0008 + i) * 0.08;
           arr[i] = lerp(start[i] + drift, target[i], conv);
         }
         geom.attributes.position.needsUpdate = true;
 
-        // Slow rotation around z (the orbit axis)
-        particles.rotation.z = t * Math.PI * 0.18;
+        // Slow z-rotation throughout — including the 5 s hold
+        particles.rotation.z = ms * 0.00018 * Math.PI;
 
-        // Phase B: nucleus fades in (0.45 → 0.65)
-        nucleusMat.opacity = ease(
-          Math.max(0, Math.min((t - 0.45) / 0.2, 1))
-        );
-        nucleus.scale.setScalar(
-          lerp(0.2, 1, ease(Math.max(0, Math.min((t - 0.45) / 0.25, 1))))
-        );
+        // ── Nucleus fade-in + scale ──
+        const nucT = clamp01((ms - T.nucIn) / (T.nucFull - T.nucIn));
+        nucleusMat.opacity = ease(nucT);
+        nucleus.scale.setScalar(lerp(0.2, 1, ease(nucT)));
 
-        // Halo: bright peak at t≈0.55, fades by 0.85
-        const haloT =
-          t < 0.45
-            ? 0
-            : t < 0.55
-            ? (t - 0.45) / 0.1
-            : t < 0.85
-            ? 1 - (t - 0.55) / 0.3
-            : 0;
-        haloMat.opacity = haloT * 0.85;
-        const haloScale = lerp(5, 14, ease(Math.min(t / 0.7, 1)));
+        // ── Halo: ramp in, peak, gentle pulse during hold, fade with the dolly ──
+        let haloOpacity = 0;
+        if (ms < T.nucIn) {
+          haloOpacity = 0;
+        } else if (ms < T.haloPeak) {
+          haloOpacity = (ms - T.nucIn) / (T.haloPeak - T.nucIn);
+        } else if (ms < T.holdEnd) {
+          // Settle from peak to a soft baseline, then breathe
+          const settle = clamp01((ms - T.haloPeak) / 1200); // 1.2 s settle
+          const baseline = lerp(1.0, 0.45, settle);
+          const pulse = 0.08 * Math.sin((ms - T.haloPeak) * 0.0018);
+          haloOpacity = baseline + pulse;
+        } else {
+          haloOpacity = lerp(0.45, 0, ease(clamp01((ms - T.holdEnd) / (T.dollyEnd - T.holdEnd))));
+        }
+        haloMat.opacity = clamp01(haloOpacity) * 0.85;
+        const haloScale = lerp(5, 14, ease(clamp01(ms / T.holdEnd)));
         halo.scale.set(haloScale, haloScale, 1);
 
-        // Phase D: wordmark fade-in cue (DOM)
-        if (!done && t > 0.58 && phase !== 1) setPhase(1);
+        // ── Wordmark cue (DOM overlay) ──
+        if (!done && ms > T.wordmarkIn + 200 && phase !== 1) setPhase(1);
 
-        // Phase E: camera dolly + fade out
-        if (t > 0.82) {
-          const dt = (t - 0.82) / 0.18;
+        // ── Camera dolly + scene fade-out ──
+        if (ms > T.holdEnd) {
+          const dt = clamp01((ms - T.holdEnd) / (T.dollyEnd - T.holdEnd));
           camera.position.z = lerp(60, 18, ease(dt));
-          // Fade scene to bone via background blend
-          const c = new THREE.Color(0x0a0a0a).lerp(
-            new THREE.Color(BONE),
-            ease(dt)
-          );
+          const c = new THREE.Color(0x0a0a0a).lerp(new THREE.Color(BONE), ease(dt));
           scene.background = c;
           renderer.domElement.style.opacity = String(1 - ease(dt));
         }
 
         renderer.render(scene, camera);
 
-        if (t < 1) {
+        if (ms < DURATION) {
           raf = requestAnimationFrame(frame);
         } else if (!done) {
           done = true;

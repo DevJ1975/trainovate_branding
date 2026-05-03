@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Trainovate.ai · Intro</title>
+<!--
+  Trainovate.ai · Standalone intro reveal
+  ────────────────────────────────────────────────────────────
+  A self-contained HTML splash. Drop into any product:
+    1. Serve this file as the first thing the browser sees, OR
+    2. Embed in an <iframe> overlay over your real app, OR
+    3. Mount onto an existing #app and call window.tvIntro.play()
+       once your app shell is ready to take over.
+
+  Three.js loads from a CDN (~150 KB gzipped). No build step.
+
+  Tunables — edit the T block in the script below:
+    holdEnd   how long the revealed mark sits before the dolly
+    dollyEnd  total length, including the fade-out
+
+  Phases (ms):
+    0     – 400    particles scatter + drift
+    400   – 2000   converge along the two ±30° ellipses
+    1600  – 2400   cobalt nucleus + flare halo materializes
+    2000  – 2800   "Trainovate.ai" wordmark fades in
+    2800  – 7800   HOLD — slow rotation, soft breathing halo
+    7800  – 8500   camera dolly + fade to bone
+
+  Skips on click / key / scroll / touch.
+  Honors `?onDone=<url>` query — navigates there when the reveal
+  completes, otherwise dispatches a `tv-intro:done` event on window.
+-->
+<style>
+  :root {
+    --ink: #0A0A0A;
+    --bone: #F4F1EA;
+    --cobalt: #0046E6;
+    --flare: #FF6B1A;
+  }
+  html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--ink); overflow: hidden; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter Tight", sans-serif;
+    color: var(--bone);
+    -webkit-font-smoothing: antialiased;
+  }
+  #stage { position: absolute; inset: 0; }
+  #stage canvas { display: block; }
+
+  /* Wordmark overlay — fades in mid-reveal */
+  .wordmark {
+    position: absolute; left: 0; right: 0; bottom: 18%;
+    display: flex; flex-direction: column; align-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 700ms ease-out;
+  }
+  .wordmark.show { opacity: 1; }
+  .wordmark .name {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-size: clamp(28px, 4vw, 56px);
+    line-height: 1;
+  }
+  .wordmark .name .suffix { font-weight: 500; opacity: 0.55; }
+  .wordmark .tag {
+    margin-top: 12px;
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    opacity: 0.45;
+  }
+
+  .skip {
+    position: absolute; right: 24px; bottom: 24px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <div id="stage"></div>
+  <div class="wordmark" id="wordmark">
+    <div class="name">Trainovate<span class="suffix">.ai</span></div>
+    <div class="tag" id="tag">Brand Hub · v1.0</div>
+  </div>
+  <div class="skip">Skip · click anywhere</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.184.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from "three";
+
+// ── Tunables ───────────────────────────────────────────────────
+const T = {
+  driftEnd:    400,
+  convStart:   400,
+  convEnd:    2000,
+  nucIn:      1600,
+  nucFull:    2400,
+  haloPeak:   2200,
+  wordmarkIn: 2000,
+  holdEnd:    7800,   // <-- change me to extend / shorten the hold
+  dollyEnd:   8500,
+};
+const DURATION = T.dollyEnd;
+
+const COBALT = 0x0046e6;
+const FLARE  = 0xff6b1a;
+const BONE   = 0xf4f1ea;
+
+// Allow ?tag=... query to override the small mono tagline
+const params = new URLSearchParams(location.search);
+const tagOverride = params.get("tag");
+if (tagOverride !== null) document.getElementById("tag").textContent = tagOverride;
+
+// ── Helpers ────────────────────────────────────────────────────
+const clamp01 = (x) => Math.max(0, Math.min(1, x));
+const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+const lerp = (a, b, t) => a + (b - a) * t;
+
+// ── Scene setup ────────────────────────────────────────────────
+const stage = document.getElementById("stage");
+const w = () => window.innerWidth;
+const h = () => window.innerHeight;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0a0a);
+
+const camera = new THREE.PerspectiveCamera(55, w() / h(), 0.1, 1000);
+camera.position.z = 60;
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(w(), h());
+stage.appendChild(renderer.domElement);
+
+// ── Particles: scatter → ellipse targets ───────────────────────
+const N = 600;
+const half = N / 2;
+const RX = 18, RY = 7.2;
+const start = new Float32Array(N * 3);
+const target = new Float32Array(N * 3);
+
+for (let i = 0; i < N; i++) {
+  start[i * 3 + 0] = (Math.random() - 0.5) * 140;
+  start[i * 3 + 1] = (Math.random() - 0.5) * 80;
+  start[i * 3 + 2] = (Math.random() - 0.5) * 120 - 20;
+
+  const onA = i < half;
+  const t = (onA ? i / half : (i - half) / half) * Math.PI * 2;
+  const x0 = Math.cos(t) * RX, y0 = Math.sin(t) * RY;
+  const angle = onA ? Math.PI / 6 : -Math.PI / 6;
+  const c = Math.cos(angle), s = Math.sin(angle);
+  target[i * 3 + 0] = x0 * c - y0 * s;
+  target[i * 3 + 1] = x0 * s + y0 * c;
+  target[i * 3 + 2] = (Math.random() - 0.5) * 0.6;
+}
+
+const positions = new Float32Array(start);
+const geom = new THREE.BufferGeometry();
+geom.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+const mat = new THREE.PointsMaterial({
+  color: BONE, size: 0.42, sizeAttenuation: true,
+  transparent: true, opacity: 0.9,
+  blending: THREE.AdditiveBlending, depthWrite: false,
+});
+const particles = new THREE.Points(geom, mat);
+scene.add(particles);
+
+// ── Nucleus ────────────────────────────────────────────────────
+const nucleusGeom = new THREE.SphereGeometry(1.6, 32, 32);
+const nucleusMat = new THREE.MeshBasicMaterial({ color: COBALT, transparent: true, opacity: 0 });
+const nucleus = new THREE.Mesh(nucleusGeom, nucleusMat);
+scene.add(nucleus);
+
+// ── Procedural orange halo sprite ──────────────────────────────
+const haloCanvas = document.createElement("canvas");
+haloCanvas.width = haloCanvas.height = 128;
+const ctx = haloCanvas.getContext("2d");
+const grd = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+grd.addColorStop(0.0, "rgba(255,107,26,0.85)");
+grd.addColorStop(0.4, "rgba(255,107,26,0.35)");
+grd.addColorStop(1.0, "rgba(255,107,26,0)");
+ctx.fillStyle = grd;
+ctx.fillRect(0, 0, 128, 128);
+const haloTex = new THREE.CanvasTexture(haloCanvas);
+const haloMat = new THREE.SpriteMaterial({
+  map: haloTex, color: FLARE, transparent: true, opacity: 0,
+  blending: THREE.AdditiveBlending, depthWrite: false,
+});
+const halo = new THREE.Sprite(haloMat);
+halo.scale.set(8, 8, 1);
+scene.add(halo);
+
+// ── Animation loop ─────────────────────────────────────────────
+const t0 = performance.now();
+let done = false;
+const wm = document.getElementById("wordmark");
+
+function frame() {
+  const ms = performance.now() - t0;
+
+  const conv = ease(clamp01((ms - T.convStart) / (T.convEnd - T.convStart)));
+  const arr = geom.attributes.position.array;
+  for (let i = 0; i < N * 3; i++) {
+    const drift = Math.sin(ms * 0.0008 + i) * 0.08;
+    arr[i] = lerp(start[i] + drift, target[i], conv);
+  }
+  geom.attributes.position.needsUpdate = true;
+  particles.rotation.z = ms * 0.00018 * Math.PI;
+
+  const nucT = clamp01((ms - T.nucIn) / (T.nucFull - T.nucIn));
+  nucleusMat.opacity = ease(nucT);
+  nucleus.scale.setScalar(lerp(0.2, 1, ease(nucT)));
+
+  let haloOpacity = 0;
+  if (ms < T.nucIn) haloOpacity = 0;
+  else if (ms < T.haloPeak) haloOpacity = (ms - T.nucIn) / (T.haloPeak - T.nucIn);
+  else if (ms < T.holdEnd) {
+    const settle = clamp01((ms - T.haloPeak) / 1200);
+    const baseline = lerp(1.0, 0.45, settle);
+    const pulse = 0.08 * Math.sin((ms - T.haloPeak) * 0.0018);
+    haloOpacity = baseline + pulse;
+  } else {
+    haloOpacity = lerp(0.45, 0, ease(clamp01((ms - T.holdEnd) / (T.dollyEnd - T.holdEnd))));
+  }
+  haloMat.opacity = clamp01(haloOpacity) * 0.85;
+  const haloScale = lerp(5, 14, ease(clamp01(ms / T.holdEnd)));
+  halo.scale.set(haloScale, haloScale, 1);
+
+  if (ms > T.wordmarkIn + 200) wm.classList.add("show");
+
+  if (ms > T.holdEnd) {
+    const dt = clamp01((ms - T.holdEnd) / (T.dollyEnd - T.holdEnd));
+    camera.position.z = lerp(60, 18, ease(dt));
+    const c = new THREE.Color(0x0a0a0a).lerp(new THREE.Color(BONE), ease(dt));
+    scene.background = c;
+    renderer.domElement.style.opacity = String(1 - ease(dt));
+  }
+
+  renderer.render(scene, camera);
+
+  if (ms < DURATION) requestAnimationFrame(frame);
+  else if (!done) finish();
+}
+requestAnimationFrame(frame);
+
+window.addEventListener("resize", () => {
+  camera.aspect = w() / h();
+  camera.updateProjectionMatrix();
+  renderer.setSize(w(), h());
+});
+
+// ── Skip + done ────────────────────────────────────────────────
+function finish() {
+  if (done) return;
+  done = true;
+  const onDone = params.get("onDone");
+  if (onDone) {
+    location.replace(onDone);
+  } else {
+    window.dispatchEvent(new CustomEvent("tv-intro:done"));
+  }
+}
+["click", "keydown", "wheel", "touchstart"].forEach((ev) =>
+  window.addEventListener(ev, finish, { passive: true })
+);
+
+// Public API for embedding apps
+window.tvIntro = { finish };
+</script>
+</body>
+</html>

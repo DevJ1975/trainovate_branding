@@ -290,6 +290,92 @@ def write_zoom_zip() -> None:
     print(f"wrote {out}  ({out.stat().st_size:,} bytes)")
 
 
+INTRO_HTML = (DL / "intro.html").read_text(encoding="utf-8")
+
+INTRO_README = """\
+# Trainovate.ai Intro Reveal
+
+A single self-contained HTML splash that you can drop into any
+Trainovate.ai product. It plays an ~8.5-second three.js reveal —
+particles converge into the two crossed ellipses, the cobalt
+nucleus materializes with an orange halo, the wordmark fades in,
+the mark holds for 5 s, then a camera dolly hands off to your app.
+
+Three.js loads from a CDN (~150 KB gzipped). No build step.
+
+## Three ways to use it
+
+### 1. As the first thing the browser sees
+Serve `intro.html` at `/` and use the `?onDone=` query to redirect
+into your app:
+
+    https://app.trainovate.ai/intro.html?onDone=/dashboard
+
+When the reveal completes (or the user clicks to skip), the page
+navigates to `/dashboard`.
+
+### 2. As an iframe overlay
+Layer it over your real app on first visit:
+
+    <iframe src="/intro.html" style="position:fixed;inset:0;border:0;width:100vw;height:100vh;z-index:9999"></iframe>
+
+Listen for the `tv-intro:done` event on the iframe's window and
+remove the overlay:
+
+    iframe.contentWindow.addEventListener('tv-intro:done',
+      () => iframe.remove());
+
+### 3. As a React component
+The full TS source ships in the brand hub repo at
+`components/Intro.tsx` + `components/IntroGate.tsx`. Copy those
+two files into your app — they have one runtime dep (`three`).
+
+## Tunables
+
+Open `intro.html` and edit the `T` block at the top of the
+`<script type="module">`:
+
+    holdEnd:  7800   // how long the revealed mark sits before dolly
+    dollyEnd: 8500   // total reveal length
+
+The phase boundaries before `holdEnd` (drift / converge / nucleus
+/ halo / wordmark) cascade naturally — change one number to tune
+the whole reveal.
+
+## Query params
+
+    ?onDone=<url>   Navigate to <url> when the reveal finishes
+    ?tag=<text>     Override the small mono tagline (default
+                    "Brand Hub · v1.0")
+
+## Skip
+
+The reveal short-circuits on click / keydown / wheel / touchstart
+and either dispatches `tv-intro:done` or navigates to `?onDone`.
+"""
+
+INTRO_LICENSE = """\
+Trainovate.ai Brand Asset · Internal Use
+
+This intro reveal and the embedded mark are Trainovate.ai brand
+assets. Distribute only within the organization. Do not modify the
+geometry of the mark. Color may be re-themed via the brand palette
+only (ink / bone / cobalt / flare).
+
+Questions: brand@trainovate.ai
+"""
+
+
+def write_intro_zip() -> None:
+    out = DL / "trainovate-intro.zip"
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr("intro.html", INTRO_HTML)
+        z.writestr("README.md", INTRO_README)
+        z.writestr("LICENSE", INTRO_LICENSE)
+    print(f"wrote {out}  ({out.stat().st_size:,} bytes)")
+
+
 if __name__ == "__main__":
     write_screensaver_zip()
     write_zoom_zip()
+    write_intro_zip()
