@@ -75,7 +75,7 @@ export default function Home() {
               backgroundImage: "radial-gradient(circle at 1px 1px, #fff 1px, transparent 0)",
               backgroundSize: "16px 16px",
             }} />
-            <BrandMark tone="bone" size={240} />
+            <BrandMark tone="bone" size={240} animated />
           </div>
         </div>
 

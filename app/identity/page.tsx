@@ -94,24 +94,27 @@ export default function IdentityPage() {
       </div>
 
       {/* Animated mark */}
-      <SectionHead title="Animated mark" count="3 BACKGROUNDS" />
+      <SectionHead title="Animated mark" count="LIVE · 3 BACKGROUNDS" />
       <div className="grid md:grid-cols-3 gap-4">
         {[
-          { src: "/brand/trainovate-mark-animated-light.gif", bg: "bg-bone",   label: "On bone",   note: "For light surfaces and product UI." },
-          { src: "/brand/trainovate-mark-animated-dark.gif",  bg: "bg-ink",    label: "On ink",    note: "For dark hero moments and splashes." },
-          { src: "/brand/trainovate-mark-animated-cobalt.gif", bg: "bg-cobalt", label: "On cobalt", note: "Brand moments only — keep it sparing." },
+          { tone: "ink",    bg: "bg-bone",   label: "On bone",   note: "Default — for light surfaces and product UI." },
+          { tone: "bone",   bg: "bg-ink",    label: "On ink",    note: "For dark hero moments and splashes." },
+          { tone: "bone",   bg: "bg-cobalt", label: "On cobalt", note: "Brand moments only — keep it sparing." },
         ].map((a) => (
-          <TCard key={a.src} elevated>
+          <TCard key={a.label} elevated>
             <div className={`aspect-square ${a.bg} rounded-md flex items-center justify-center mb-3 overflow-hidden`}>
-              {/* Use a plain <img> — animated GIFs are not optimised by next/image */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={a.src} alt={`Animated Trainovate mark — ${a.label}`} width={140} height={140} />
+              <BrandMark tone={a.tone as "ink" | "bone"} size={140} animated />
             </div>
             <p className="text-sm font-semibold mb-1">{a.label}</p>
             <p className="text-xs text-ink/60">{a.note}</p>
           </TCard>
         ))}
       </div>
+      <p className="mt-3 text-xs text-ink/55 leading-relaxed max-w-[60ch]">
+        Three electrons orbit the nucleus at independent rates. Honors{" "}
+        <code className="font-mono text-[11px] bg-bone px-1 py-0.5 rounded">prefers-reduced-motion</code>{" "}
+        — the electrons pin to their orbits when motion is dialled back.
+      </p>
 
       {/* Misuse */}
       <SectionHead title="Misuse" count="DON'T DO THESE" />
