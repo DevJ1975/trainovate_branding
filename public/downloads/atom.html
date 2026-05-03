@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Trainovate · Animated Mark</title>
+<title>Trainovate.ai · Animated Mark</title>
 <!--
-  Canonical Trainovate animated nucleus.
+  Canonical Trainovate.ai animated nucleus.
   Self-contained HTML — works as:
     1. A Zoom background (record this page to MP4 with QuickTime / OBS at 1920x1080)
     2. A WebView-based screensaver (WebViewScreenSaver on macOS, Plash on Windows)
@@ -80,6 +80,7 @@
     line-height: 1;
     opacity: 0.92;
   }
+  .wordmark .suffix { font-weight: 500; opacity: 0.5; }
   body[data-wordmark="0"] .wordmark { display: none; }
 
   .meta {
@@ -107,7 +108,7 @@
     <div class="floater">
       <div class="lockup">
         <svg class="mark" viewBox="0 0 100 100" width="360" height="360"
-             role="img" aria-label="Trainovate"
+             role="img" aria-label="Trainovate.ai"
              style="color: currentColor">
           <defs>
             <path id="orbit" d="M 90,50 A 40,17 0 1 1 10,50 A 40,17 0 1 1 90,50" />
@@ -136,10 +137,10 @@
             </circle>
           </g>
         </svg>
-        <div class="wordmark">Trainovate</div>
+        <div class="wordmark">Trainovate<span class="suffix">.ai</span></div>
       </div>
     </div>
-    <div class="meta" data-meta>Trainovate · Brand Hub</div>
+    <div class="meta" data-meta>Trainovate.ai · Brand Hub</div>
   </div>
 <script>
   (function () {

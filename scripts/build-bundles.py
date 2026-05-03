@@ -34,9 +34,9 @@ DL.mkdir(parents=True, exist_ok=True)
 ATOM = (DL / "atom.html").read_text(encoding="utf-8")
 
 SCREENSAVER_README = """\
-# Trainovate Screensaver
+# Trainovate.ai Screensaver
 
-A single self-contained HTML file that displays the animated Trainovate
+A single self-contained HTML file that displays the animated Trainovate.ai
 nucleus. Works on macOS, Windows, and Linux through any FOSS HTML
 screensaver host. Drop it in, point the host at it, done.
 
@@ -47,7 +47,7 @@ screensaver host. Drop it in, point the host at it, done.
                         screen so it can't burn into a panel.
 - `INSTALL-mac.md`    — install steps for macOS via WebViewScreenSaver
 - `INSTALL-windows.md`— install steps for Windows via Plash
-- `LICENSE`           — internal Trainovate brand asset
+- `LICENSE`           — internal Trainovate.ai brand asset
 
 ## Why HTML and not a .saver / .scr installer?
 
@@ -176,20 +176,20 @@ distribution.
 """
 
 LICENSE = """\
-Trainovate Brand Asset · Internal Use
+Trainovate.ai Brand Asset · Internal Use
 
-This screensaver and the embedded mark are Trainovate brand assets.
+This screensaver and the embedded mark are Trainovate.ai brand assets.
 Distribute only within the organization. Do not modify the geometry
 of the mark. Color may be re-themed via the brand palette only
 (ink / bone / cobalt).
 
-Questions: brand@trainovate.com
+Questions: brand@trainovate.ai
 """
 
 ZOOM_README = """\
-# Trainovate Animated Zoom Background
+# Trainovate.ai Animated Zoom Background
 
-A self-contained HTML file that loops the animated Trainovate
+A self-contained HTML file that loops the animated Trainovate.ai
 nucleus on a 1920×1080 canvas. Zoom accepts MP4 / MOV files for
 animated backgrounds — convert this HTML to MP4 once, then upload
 to Zoom.
@@ -198,7 +198,7 @@ to Zoom.
 
 - `zoom-background.html` — the animated background (open in browser to preview)
 - `RECORD-to-mp4.md`     — one-time recording instructions
-- `LICENSE`              — internal Trainovate brand asset
+- `LICENSE`              — internal Trainovate.ai brand asset
 
 ## Quick path
 

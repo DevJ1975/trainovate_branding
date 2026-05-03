@@ -152,9 +152,9 @@ CORE = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                    xmlns:dc="http://purl.org/dc/elements/1.1/"
                    xmlns:dcterms="http://purl.org/dc/terms/"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <dc:title>Trainovate Letterhead</dc:title>
-  <dc:creator>Trainovate Brand Hub</dc:creator>
-  <cp:lastModifiedBy>Trainovate Brand Hub</cp:lastModifiedBy>
+  <dc:title>Trainovate.ai Letterhead</dc:title>
+  <dc:creator>Trainovate.ai Brand Hub</dc:creator>
+  <cp:lastModifiedBy>Trainovate.ai Brand Hub</cp:lastModifiedBy>
   <dcterms:created xsi:type="dcterms:W3CDTF">2026-01-01T00:00:00Z</dcterms:created>
   <dcterms:modified xsi:type="dcterms:W3CDTF">2026-01-01T00:00:00Z</dcterms:modified>
 </cp:coreProperties>
@@ -163,7 +163,7 @@ CORE = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 APP = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"
             xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">
-  <Application>Trainovate Brand Hub</Application>
+  <Application>Trainovate.ai Brand Hub</Application>
 </Properties>
 """
 
@@ -189,6 +189,15 @@ DOCUMENT = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
           <w:spacing w:val="-12"/>
         </w:rPr>
         <w:t>Trainovate</w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:rFonts w:ascii="Inter Tight" w:hAnsi="Inter Tight"/>
+          <w:sz w:val="36"/>
+          <w:color w:val="8A8A8A"/>
+          <w:spacing w:val="-12"/>
+        </w:rPr>
+        <w:t>.ai</w:t>
       </w:r>
       <w:r>
         <w:rPr>
@@ -261,11 +270,11 @@ DOCUMENT = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
       </w:pPr>
       <w:r>
         <w:rPr><w:rFonts w:ascii="JetBrains Mono" w:hAnsi="JetBrains Mono"/><w:caps/><w:sz w:val="14"/><w:color w:val="8A8A8A"/><w:spacing w:val="40"/></w:rPr>
-        <w:t>Trainovate</w:t>
+        <w:t>Trainovate.ai</w:t>
         <w:tab/>
-        <w:t>trainovate.com</w:t>
+        <w:t>trainovate.ai</w:t>
         <w:tab/>
-        <w:t>hello@trainovate.com</w:t>
+        <w:t>hello@trainovate.ai</w:t>
       </w:r>
     </w:p>
 
@@ -285,7 +294,7 @@ PLACEHOLDERS = {
     "RECIPIENT_ADDRESS_2": "City, State ZIP",
     "RECIPIENT_FIRST_NAME": "First name",
     "SENDER_NAME": "Your name",
-    "SENDER_TITLE": "Title · Trainovate",
+    "SENDER_TITLE": "Title · Trainovate.ai",
 }
 
 

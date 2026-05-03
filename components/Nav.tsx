@@ -36,7 +36,7 @@ export function Nav() {
       <div className="container-tv flex items-center gap-8 py-3.5">
         <Link href="/" className="flex items-center gap-3 group">
           <BrandMark tone="bone" size={26} />
-          <span className="font-semibold tracking-tight text-base">Trainovate</span>
+          <span className="font-semibold tracking-tight text-base">Trainovate<span className="font-medium text-bone/50">.ai</span></span>
           <span className="font-mono text-[10px] tracking-[0.14em] uppercase text-bone/50 hidden md:inline">
             Brand Hub
           </span>

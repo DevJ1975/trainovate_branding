@@ -21,7 +21,7 @@ export default function TemplatesPage() {
               <div className="h-2 bg-ink/10 rounded w-2/3" />
             </div>
             <div className="mt-auto flex justify-between text-[8px] font-mono text-ink/40 uppercase tracking-[0.14em]">
-              <span>Trainovate</span><span>1 / 1</span>
+              <span>Trainovate.ai</span><span>1 / 1</span>
             </div>
           </div>
           <p className="font-semibold text-sm mb-1">Letterhead · Word</p>
@@ -96,7 +96,7 @@ export default function TemplatesPage() {
         <TCard elevated>
           <div className="bg-bone border border-[rgba(10,10,10,0.10)] rounded-md p-5 mb-4 aspect-[16/9] flex flex-col gap-2 text-[10px]">
             <p className="font-semibold text-ink text-sm">Jane Cooper</p>
-            <p className="text-ink/55">Operations Lead · Trainovate</p>
+            <p className="text-ink/55">Operations Lead · Trainovate.ai</p>
             <div className="border-t border-ink/15 my-1" />
             <p className="font-mono text-cobalt">jane@trainovate.com</p>
             <p className="font-mono text-ink/55">trainovate.com</p>

@@ -37,7 +37,7 @@ export default function ScreensaverPage() {
           }} />
           <BrandMark tone="bone" size={220} animated />
           <div className="absolute bottom-3 right-4 font-mono text-[10px] uppercase tracking-[0.16em] text-bone/35">
-            Trainovate · Screensaver
+            Trainovate.ai · Screensaver
           </div>
         </div>
         <div className="p-5 flex items-center justify-between gap-4 flex-wrap">

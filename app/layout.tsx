@@ -5,8 +5,8 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Trainovate · Brand Hub",
-  description: "The full Trainovate brand system — identity, components, templates, code-ready tokens.",
+  title: "Trainovate.ai · Brand Hub",
+  description: "The full Trainovate.ai brand system — identity, components, templates, code-ready tokens.",
   icons: { icon: "/brand/favicon-32.png" },
 };
 

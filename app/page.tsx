@@ -55,7 +55,7 @@ export default function Home() {
       <section className="container-tv pt-20 md:pt-32 pb-16">
         <div className="grid md:grid-cols-[1.2fr_1fr] gap-12 items-center">
           <div>
-            <p className="eyebrow mb-5">Trainovate · Brand Hub v1.0</p>
+            <p className="eyebrow mb-5">Trainovate.ai · Brand Hub v1.0</p>
             <h1 className="font-bold text-3xl md:text-4xl tracking-tight leading-[1.02]">
               The full system,<br/>
               <span className="text-cobalt">in one place.</span>

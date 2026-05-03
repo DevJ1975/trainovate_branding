@@ -9,7 +9,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <BrandMark tone="bone" size={28} />
-              <span className="font-semibold text-lg tracking-tight">Trainovate</span>
+              <span className="font-semibold text-lg tracking-tight">Trainovate<span className="font-medium text-bone/50">.ai</span></span>
             </div>
             <p className="text-bone/55 text-sm max-w-[28ch] leading-relaxed">
               The full brand system — identity, components, templates, code-ready tokens.

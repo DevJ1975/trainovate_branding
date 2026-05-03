@@ -124,7 +124,7 @@ export function BrandLockup({
           lineHeight: 1,
         }}
       >
-        Trainovate
+        Trainovate<span style={{ opacity: 0.5, fontWeight: 500 }}>.ai</span>
       </span>
     </span>
   );
