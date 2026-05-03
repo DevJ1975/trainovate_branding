@@ -1,16 +1,16 @@
 import { useId } from "react";
 
 /**
- * Trainovate brand mark — an atomic nucleus.
+ * Trainovate brand mark — two crossed ellipses with a cobalt nucleus.
  *
- * Three elliptical orbits set 60° apart, a solid nucleus, and three
- * electrons that travel each orbit at slightly different rates so the
- * motion never resolves to a single beat.
+ * The ellipses sit at ±30° from horizontal so they form a clean X with
+ * an almond/lens shape in the middle. The nucleus is always rendered
+ * in brand cobalt (except on a cobalt surface, where it flips to bone
+ * to keep contrast).
  *
- * The static form (no `animated`) is the canonical print/export shape.
- * The animated form is reserved for live UI surfaces (hero, splash,
- * the Identity showcase). At sizes below 24px electrons are dropped
- * entirely so the orbits stay legible at favicon scale.
+ * `animated` adds two electrons that travel each ellipse at different
+ * rates. The animation is opt-in per surface — print/template exports
+ * stay still; the hero and screensaver opt in.
  */
 
 type Tone = "ink" | "bone" | "cobalt" | "current";
@@ -21,6 +21,12 @@ const COLORS: Record<Tone, string> = {
   cobalt: "#0046E6",
   current: "currentColor",
 };
+
+// Nucleus is always cobalt — except on a cobalt surface where it would
+// disappear, in which case it flips to bone for contrast.
+function nucleusFill(tone: Tone): string {
+  return tone === "cobalt" ? COLORS.bone : COLORS.cobalt;
+}
 
 export function BrandMark({
   tone = "ink",
@@ -37,8 +43,8 @@ export function BrandMark({
   const uid = rawId.replace(/[^a-zA-Z0-9_-]/g, "");
   const orbitPathId = `tv-orbit-${uid}`;
 
-  const showElectrons = size >= 24;
-  const animate = animated && size >= 28;
+  const showElectrons = size >= 28;
+  const animate = animated && size >= 32;
 
   return (
     <svg
@@ -51,46 +57,38 @@ export function BrandMark({
       aria-label="Trainovate"
     >
       <defs>
-        {/* Single canonical orbit path; rotated copies use <g transform> */}
+        {/* Canonical orbit path — geometry matches public/brand/trainovate-mark-*.svg */}
         <path
           id={orbitPathId}
-          d="M 92,50 A 42,14 0 1 1 8,50 A 42,14 0 1 1 92,50"
+          d="M 90,50 A 40,17 0 1 1 10,50 A 40,17 0 1 1 90,50"
         />
       </defs>
 
-      {/* Orbital rings */}
-      <g fill="none" stroke="currentColor" strokeWidth={3}>
-        <ellipse cx="50" cy="50" rx="42" ry="14" />
-        <ellipse cx="50" cy="50" rx="42" ry="14" transform="rotate(60 50 50)" />
-        <ellipse cx="50" cy="50" rx="42" ry="14" transform="rotate(120 50 50)" />
+      {/* Two crossed orbital rings */}
+      <g fill="none" stroke="currentColor" strokeWidth={6} strokeLinecap="round">
+        <ellipse cx="50" cy="50" rx="40" ry="17" transform="rotate(30 50 50)" />
+        <ellipse cx="50" cy="50" rx="40" ry="17" transform="rotate(-30 50 50)" />
       </g>
 
-      {/* Nucleus */}
-      <circle cx="50" cy="50" r="9" fill="currentColor" />
+      {/* Cobalt nucleus */}
+      <circle cx="50" cy="50" r="8" fill={nucleusFill(tone)} />
 
-      {/* Electrons — static cx/cy is the base; SMIL animateMotion overrides while running */}
+      {/* Electrons — base cx/cy is the static fallback; animateMotion overrides while running */}
       {showElectrons && (
         <>
-          <circle cx="92" cy="50" r="4.5" fill="currentColor">
-            {animate && (
-              <animateMotion dur="3.2s" repeatCount="indefinite">
-                <mpath href={`#${orbitPathId}`} />
-              </animateMotion>
-            )}
-          </circle>
-          <g transform="rotate(60 50 50)">
-            <circle cx="92" cy="50" r="4.5" fill="currentColor">
+          <g transform="rotate(30 50 50)">
+            <circle cx="90" cy="50" r="3.5" fill="currentColor">
               {animate && (
-                <animateMotion dur="3.8s" repeatCount="indefinite" begin="-0.9s">
+                <animateMotion dur="3.2s" repeatCount="indefinite">
                   <mpath href={`#${orbitPathId}`} />
                 </animateMotion>
               )}
             </circle>
           </g>
-          <g transform="rotate(120 50 50)">
-            <circle cx="92" cy="50" r="4.5" fill="currentColor">
+          <g transform="rotate(-30 50 50)">
+            <circle cx="90" cy="50" r="3.5" fill="currentColor">
               {animate && (
-                <animateMotion dur="2.6s" repeatCount="indefinite" begin="-1.6s">
+                <animateMotion dur="2.6s" repeatCount="indefinite" begin="-1.1s">
                   <mpath href={`#${orbitPathId}`} />
                 </animateMotion>
               )}
